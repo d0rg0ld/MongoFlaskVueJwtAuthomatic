@@ -1,3 +1,5 @@
+// Author: 2017 Doron Goldfarb, doron.goldfarb@umweltbundesamt.at
+
 import Vue from 'vue/dist/vue.js';
 import * as Icon from 'vue-awesome';
 import axios from 'axios'

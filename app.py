@@ -1,3 +1,5 @@
+# Author: 2017 Doron Goldfarb, doron.goldfarb@umweltbundesamt.at
+
 from flask import Flask,render_template, jsonify, request, make_response, redirect, url_for
 from flask_jwt_simple import (
 	JWTManager, jwt_required, jwt_optional, create_jwt, get_jwt_identity, get_jwt, decode_jwt
