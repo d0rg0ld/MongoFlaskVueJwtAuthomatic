@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta>
+    <meta charset="UTF-8">
+    <title>MongoDB with Flask, vue.js using flask-jwt-simple and Authomatic</title>
+  </meta>
+
+<head>
+<!-- Add this to <head> -->
+<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/custom.css"> 
+<link rel="stylesheet" type="text/css" href="/static/css/app.css"> 
+      <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+      <script type="text/javascript" src="/static/js/authomatic.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">(( popup_js | safe ))</script>
+
+        <div id="repo-list-example">
+	<div align="right" v-if='!jwt' v-cloak>
+		<ul class="small-block-grid-6">
+			<li/>
+			<li/>
+			<li/>
+			<li>
+				<a class="authomatic provider-button google" href="login/google">
+					<span>Login with Google</span><img src="/static/img/icons/google.ico"/>
+				</a>
+			</li>
+			<li>
+				<a class="authomatic provider-button github" href="login/github">
+					<span>Login with GitHub</span><img src="/static/img/icons/github.ico"/>
+				</a>
+			</li>
+			<li>
+				<a class="authomatic provider-button linkedin" href="login/linkedin">
+					<span>Login with LinkedIn</span><img src="/static/img/icons/linkedin.ico"/>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div align="right" v-if='jwt' v-cloak>
+		<ul class="small-block-grid-6">
+			<li/>
+			<li/>
+			<li/>
+			<li><a>Logged in:</a></li>
+			<li><a>{{ user }} / {{ provider }}</a></li>
+			<li>
+				<a class="authomatic provider-button github" v-on:click='triggerLogout();'>
+					<span>Logout</span><img src=""/>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="table-wrapper" v-cloak>
+		<div id="table-scroll">
+		  <table>
+		  <thead>
+			<tr>
+				<th><span class="text">Name</span></th>
+				<th><span class="text">Url</span></th>
+				<th><span class="text">Desc</span></th>
+				<th><span class="text">Edit</span></th>
+				<th><span class="text">Delete</span></th>
+			</tr>
+		   </thead>
+		    <tbody>
+		    <tr
+		      is="repo-item"
+		      v-for="(repo, index) in repos"
+		      v-bind:key="repo.id"
+		      v-bind:title="repo.title"
+		      v-bind:url="repo.url"
+		      v-bind:desc="repo.desc"
+		      v-bind:owner="repo.owner"
+		      v-on:remove="triggerDelete(index)"
+		      v-on:edit="triggerEdit(index)"
+		    ></tr>
+		    </tbody>
+		  </table>
+		</div>
+	</div>
+
+  		<modal :message="curRep" :add="showAdd" v-if="showModal" 
+			@close="showModal = false" 
+			@addrepo="addNewRepo"
+			@changerepo="changeExistingRepo"
+		>
+  		</modal>
+
+  		<confirmmodal :message="curRep" v-if="showConfirmModal" 
+			@close="showConfirmModal = false" 
+			@deleterepo="triggerDeleteConfirmed"
+		>
+  		</confirmmodal>
+
+          <a class='provider-button blue' style='background-color: #EEEEEE' v-if='jwt' v-on:click='triggerAdd()' v-cloak>Add</a>
+        </div>
+	
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+
+	 <script src="static/dist/build.js"></script>
+
+
+	<script type="text/javascript">
+	authomatic.setup({
+		"backend:" : "https://bsceudatwp8.bsc.es/login/",
+		"onLoginComplete" :  	function(result) {
+						window.Vue.jwt=result.jwt;
+						window.Vue.user=result.user;
+						window.Vue.provider=result.provider;  
+						var headerdata={};
+                        			if (window.Vue.jwt)
+                                 			headerdata = { Authorization : "Bearer " + window.Vue.jwt };
+						window.Vue.axiosInstance.post("https://bsceudatwp8.bsc.es/getRepoList", 
+							{},
+							{ headers: headerdata }
+							)
+                        				.then( response => {
+                                				window.Vue.repos = response.data;
+                                				console.log(response);
+                        				})
+						.catch(function(error) {console.log(error)});
+					},
+		"onPopupOpen" 	:  	function(result) { console.log("popopen " + result); }
+	});
+         authomatic.popupInit();
+	 console.log("INITIALIZED");
+      	</script>
+
+  </body>
+</html>
+
+
+
+
