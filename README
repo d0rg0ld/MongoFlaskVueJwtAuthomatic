@@ -63,5 +63,6 @@ Setup:
 	x)
 	Create wsgi file
 	
-
-
+	x)
+	Mandatory global (eg in apache2.conf) WSGI Setting for JWT to work:
+		WSGIPAssAuthorization On
