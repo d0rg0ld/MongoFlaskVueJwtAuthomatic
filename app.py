@@ -44,6 +44,8 @@ def validateJwtUser(user, site):
 		return user==jwt_data["userid"] and site==jwt_data["siteid"]
 	except:
 		return False
+    #workaround
+	#return False
 	 
 def getJwtUser():
 	return json.loads(get_jwt()['sub'])
@@ -69,6 +71,8 @@ db = client.RepoData
 
 @application.route('/updateRepo',methods=['POST'])
 @jwt_required
+# workaround
+#@jwt_optional
 def updateRepo():
     global db
     try:
@@ -76,12 +80,63 @@ def updateRepo():
         repoId = repoInfo['id']
 	repo = db.Repositories.find_one({'_id':ObjectId(repoId)})
 	if validateJwtUser(str(repo['owner']['userid']), str(repo['owner']['siteid'])):
-		
-        	title = repoInfo['title']
-        	url = repoInfo['url']
-        	desc = repoInfo['desc']
+		title = repoInfo['title']
+		url = repoInfo['url']
+		desc = repoInfo['desc']
+		api_url = repoInfo['api_url']
+		api_doc_url = repoInfo['api_doc_url']
+		api_type = repoInfo['api_type']
+		api_version = repoInfo['api_version']
+		techno = repoInfo['techno']
+		vocab_types = repoInfo['vocab_types']
+		domain = repoInfo['domain']
+		comment = repoInfo['comment']
+		contact = repoInfo['contact']
+		onto_acr = repoInfo['onto_acr']
+		onto_name = repoInfo['onto_name']
+		onto_uri = repoInfo['onto_uri']
+		onto_internal_uri = repoInfo['onto_internal_uri']
+		onto_version = repoInfo['onto_version']
+		onto_vdate = repoInfo['onto_vdate']
+		onto_domain = repoInfo['onto_domain']
+		class_label = repoInfo['class_label']
+		class_uri = repoInfo['class_uri']
+		class_desc = repoInfo['class_desc']
+		class_shortform = repoInfo['class_shortform']
+		class_synonyms = repoInfo['class_synonyms']
+		class_ontos = repoInfo['class_ontos']
 
-        	db.Repositories.update_one({'_id':ObjectId(repoId)},{'$set':{'title':title,'url':url,'desc':desc}})
+
+
+
+        	db.Repositories.update_one({'_id':ObjectId(repoId)},{'$set':{
+				'title':title,
+				'url':url,
+				'desc':desc,
+				'api_url':api_url,
+				'api_doc_url':api_doc_url,
+				'api_type':api_type,
+				'api_version':api_version,
+				'techno':techno,
+				'vocab_types':vocab_types,
+				'domain':domain,
+				'comment':comment,
+				'contact':contact,
+				'onto_acr':onto_acr,
+				'onto_name':onto_name,
+				'onto_uri':onto_uri,
+				'onto_internal_uri':onto_internal_uri,
+				'onto_version':onto_version,
+				'onto_vdate':onto_vdate,
+				'onto_domain':onto_domain,
+				'class_label':class_label,
+				'class_uri':class_uri,
+				'class_desc':class_desc,
+				'class_shortform':class_shortform,
+				'class_synonyms':class_synonyms,
+				'class_ontos':class_ontos
+
+			}})
         	return jsonify(status='OK',message='updated successfully')
 	else:
         	return jsonify(status='Unauthorized',message='')
@@ -90,6 +145,8 @@ def updateRepo():
 
 @application.route("/deleteRepo",methods=['POST'])
 @jwt_required
+# workaround
+#@jwt_optional
 def deleteRepo():
     global db
     repoId=None
@@ -120,22 +177,22 @@ def getRepoList():
         repoList = []
 
         for repo in repos:
-            print repo 
-	    owner=0
+            print repo
+            owner=0
 
-	    if validateJwtUser(str(repo['owner']['userid']), str(repo['owner']['siteid'])):
-		owner=1
+            if validateJwtUser(str(repo['owner']['userid']), str(repo['owner']['siteid'])):
+                owner=1
 
             repoItem = {
-                    'title':repo['title'],
-                    'url':repo['url'],
-                    'desc':repo['desc'],
-		    'id':str(repo['_id']),		
-		    'owner':owner
-                    }
+                'title':repo['title'],
+                'url':repo['url'],
+                'desc':repo['desc'],
+                'id':str(repo['_id']),
+                'owner':owner
+            }
             repoList.append(repoItem)
     except Exception,e:
-	log.error("ERROR : " + str(e))
+        log.error("ERROR : " + str(e))
         return str(e)
     return json.dumps(repoList)
 
@@ -146,13 +203,66 @@ def getRepo():
     try:
         repoId = request.json['id']
         repo = db.Repositories.find_one({'_id':ObjectId(repoId)})
+
         repoDetail = {
-                    'title':repo['title'],
-                    'url':repo['url'],
-                    'desc':repo['desc'],
-		    'id':str(repo['_id']),
-		    'owner':repo['owner']
-                }
+            'title':'',
+            'url':'',
+            'desc':'',
+            'api_url':'',
+            'api_doc_url':'',
+            'api_type':'',
+            'api_version':'',
+            'techno':'',
+            'vocab_types':'',
+            'domain':'',
+            'comment':'',
+            'contact':'',
+            'onto_acr':'',
+            'onto_name':'',
+            'onto_uri':'',
+            'onto_internal_uri':'',
+            'onto_version':'',
+            'onto_vdate':'',
+            'onto_domain':'',
+            'class_label':'',
+            'class_uri':'',
+            'class_desc':'',
+            'class_shortform':'',
+            'class_synonyms':'',
+            'class_ontos':'',
+            'id':str(repo['_id']),
+            'owner':repo['owner']
+        }
+
+        try:
+            repoDetail['title']=repo['title']
+            repoDetail['url']=repo['url']
+            repoDetail['desc']=repo['desc']
+            repoDetail['api_url']=repo['api_url']
+            repoDetail['api_doc_url']=repo['api_doc_url']
+            repoDetail['api_type']=repo['api_type']
+            repoDetail['api_version']=repo['api_version']
+            repoDetail['techno']=repo['techno']
+            repoDetail['vocab_types']=repo['vocab_types']
+            repoDetail['domain']=repo['domain']
+            repoDetail['comment']=repo['comment']
+            repoDetail['contact']=repo['contact']
+            repoDetail['onto_acr']=repo['onto_acr']
+            repoDetail['onto_name']=repo['onto_name']
+            repoDetail['onto_uri']=repo['onto_uri']
+            repoDetail['onto_internal_uri']=repo['onto_internal_uri']
+            repoDetail['onto_version']=repo['onto_version']
+            repoDetail['onto_vdate']=repo['onto_vdate']
+            repoDetail['onto_domain']=repo['onto_domain']
+            repoDetail['class_label']=repo['class_label']
+            repoDetail['class_uri']=repo['class_uri']
+            repoDetail['class_desc']=repo['class_desc']
+            repoDetail['class_shortform']=repo['class_shortform']
+            repoDetail['class_synonyms']=repo['class_synonyms']
+            repoDetail['class_ontos']=repo['class_ontos']
+        except Exception, e:
+            return str(e)
+
         return json.dumps(repoDetail)
     except Exception, e:
         return str(e)
@@ -161,6 +271,8 @@ def getRepo():
 
 @application.route("/addRepo",methods=['POST'])
 @jwt_required
+# workaround
+#@jwt_optional
 def addRepo():
     global db
     log.info(repr(db))
@@ -170,12 +282,60 @@ def addRepo():
         title	= json_data['title']
         url	= json_data['url']
         desc	= json_data['desc']
-	userdata=getJwtUser()
-	owner	= { "userid" : str(userdata['userid']),  "siteid" : str(userdata['siteid']) }
- 
+        api_url = json_data['api_url']
+        api_doc_url = json_data['api_doc_url']
+        api_type = json_data['api_type']
+        api_version = json_data['api_version']
+        techno = json_data['techno']
+        vocab_types = json_data['vocab_types']
+        domain = json_data['domain']
+        comment = json_data['comment']
+        contact	= json_data['contact']
+        onto_acr = json_data['onto_acr']
+        onto_name = json_data['onto_name']
+        onto_uri = json_data['onto_uri']
+        onto_internal_uri = json_data['onto_internal_uri']
+        onto_version = json_data['onto_version']
+        onto_vdate = json_data['onto_vdate']
+        onto_domain = json_data['onto_domain']
+        class_label = json_data['class_label']
+        class_uri = json_data['class_uri']
+        class_desc = json_data['class_desc']
+        class_shortform = json_data['class_shortform']
+        class_synonyms = json_data['class_synonyms']
+        class_ontos = json_data['class_ontos']
+        userdata=getJwtUser()
+        owner	= { "userid" : str(userdata['userid']),  "siteid" : str(userdata['siteid']) }
+        # workaround
+        #owner = { "userid" : "AymRod",  "siteid" : "fakesite" }
         db.Repositories.insert_one({
-            'title':title, 'url':url, 'desc':desc, 'owner':owner
-            })
+            'title':title,
+            'url':url,
+            'desc':desc,
+            'api_url':api_url,
+            'api_doc_url':api_doc_url,
+            'api_type':api_type,
+            'api_version':api_version,
+            'techno':techno,
+            'vocab_types':vocab_types,
+            'domain':domain,
+            'comment':comment,
+            'contact':contact,
+            'onto_acr':onto_acr,
+            'onto_name':onto_name,
+            'onto_uri':onto_uri,
+            'onto_internal_uri':onto_internal_uri,
+            'onto_version':onto_version,
+            'onto_vdate':onto_vdate,
+            'onto_domain':onto_domain,
+            'class_label':class_label,
+            'class_uri':class_uri,
+            'class_desc':class_desc,
+            'class_shortform':class_shortform,
+            'class_synonyms':class_synonyms,
+            'class_ontos':class_ontos,
+            'owner':owner
+        })
         return jsonify(status='OK',message='inserted successfully'), 200
 
     except Exception,e:

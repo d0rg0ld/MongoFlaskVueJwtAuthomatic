@@ -60,7 +60,7 @@ body {
 
 /* line 309, ../bower_components/foundation/scss/foundation/components/_global.scss */
 body {
-  background: white;
+  background: #EAEAEA;
   color: #222222;
   padding: 0;
   margin: 0;
@@ -7955,7 +7955,7 @@ input[type=text] {
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: normal;
   line-height: normal;
-  margin: 0 0 1.25rem;
+  margin: 1.5rem 0rem 1rem;
   position: relative;
   text-decoration: none;
   text-align: center;

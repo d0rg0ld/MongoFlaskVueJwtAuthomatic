@@ -3,7 +3,7 @@
   <meta>
     <meta charset="UTF-8">
     <meta name="author" content="2017, Doron Goldfarb, doron.goldfarb@umweltbundesamt.at">
-    <title>MongoDB with Flask, vue.js using flask-jwt-simple and Authomatic</title>
+    <title>Register ontology repositories</title>
   </meta>
 
 <head>
@@ -15,15 +15,14 @@
       <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
       <script type="text/javascript" src="/static/js/authomatic.js"></script>
 </head>
-
 <body>
 	<script type="text/javascript">(( popup_js | safe ))</script>
 
         <div id="repo-list-example">
-	<div align="right" v-if='!jwt' v-cloak>
+	<div class="headDiv" align="right" v-if='!jwt' v-cloak>
 		<ul class="small-block-grid-6">
-			<li/>
-			<li/>
+			<li class="small"/>
+			<li class="headTitle">Titre</li>
 			<li/>
 			<li>
 				<a class="authomatic provider-button google" href="login/google">
@@ -42,13 +41,13 @@
 			</li>
 		</ul>
 	</div>
-	<div align="right" v-if='jwt' v-cloak>
+	<div class="headDiv" align="right" v-if='jwt' v-cloak>
 		<ul class="small-block-grid-6">
+			<li class="small"/>
+			<li class="headTitle">Titre</li>
 			<li/>
-			<li/>
-			<li/>
-			<li><a>Logged in:</a></li>
-			<li><a>{{ user }} / {{ provider }}</a></li>
+			<li class="logInfo"><a>Logged in:</a></li>
+			<li class="logInfo"><a>{{ user }} / {{ provider }}</a></li>
 			<li>
 				<a class="authomatic provider-button github" v-on:click='triggerLogout();'>
 					<span>Logout</span><img src=""/>
@@ -56,17 +55,20 @@
 			</li>
 		</ul>
 	</div>
-
+	<div>
+		<div class="explain" v-if='!jwt'>Log in to register or manage your ontology repository.</div>
+		<button class="addButton" v-if='jwt' v-on:click='triggerAdd()' v-cloak>Add new repo</button>
+	</div>
 	<div id="table-wrapper" v-cloak>
 		<div id="table-scroll">
 		  <table>
-		  <thead>
+		  <thead style="border-bottom: 2px #DDDDDD solid">
 			<tr>
-				<th><span class="text">Name</span></th>
-				<th><span class="text">Url</span></th>
-				<th><span class="text">Desc</span></th>
-				<th><span class="text">Edit</span></th>
-				<th><span class="text">Delete</span></th>
+				<th><span>Name</span></th>
+				<th><span>Url</span></th>
+				<th><span>Description</span></th>
+				<th><span>Edit</span></th>
+				<th><span>Delete</span></th>
 			</tr>
 		   </thead>
 		    <tbody>
@@ -77,6 +79,28 @@
 		      v-bind:title="repo.title"
 		      v-bind:url="repo.url"
 		      v-bind:desc="repo.desc"
+		      v-bind:api_url="repo.api_url"
+		      v-bind:api_doc_url="repo.api_doc_url"
+		      v-bind:api_type="repo.api_type"
+		      v-bind:api_version="repo.api_version"
+		      v-bind:techno="repo.techno"
+		      v-bind:voc_types="repo.voc_types"
+		      v-bind:domain="repo.domain"
+		      v-bind:comment="repo.comment"
+		      v-bind:contact="repo.contact"
+			  v-bind:onto_acr="repo.onto_acr"
+			  v-bind:onto_name="repo.onto_name"
+			  v-bind:onto_uri="repo.onto_uri"
+			  v-bind:onto_internal_uri="repo.onto_internal_uri"
+			  v-bind:onto_version="repo.onto_version"
+			  v-bind:onto_vdate="repo.onto_vdate"
+			  v-bind:onto_domain="repo.onto_domain"
+			  v-bind:class_label="repo.class_label"
+			  v-bind:class_uri="repo.class_uri"
+			  v-bind:class_desc="repo.class_desc"
+			  v-bind:class_shortform="repo.class_shortform"
+			  v-bind:class_synonyms="repo.class_synonyms"
+			  v-bind:class_ontos="repo.class_onto"
 		      v-bind:owner="repo.owner"
 		      v-on:remove="triggerDelete(index)"
 		      v-on:edit="triggerEdit(index)"
@@ -86,20 +110,21 @@
 		</div>
 	</div>
 
-  		<modal :message="curRep" :add="showAdd" v-if="showModal" 
-			@close="showModal = false" 
+  		<modal :message="curRep" :first="firstForm" :add="showAdd" v-if="showModal"
+			@close="showModal = false, firstForm = true"
 			@addrepo="addNewRepo"
 			@changerepo="changeExistingRepo"
+			@first="firstForm = true"
+			@second="firstForm = false"
 		>
   		</modal>
 
   		<confirmmodal :message="curRep" v-if="showConfirmModal" 
-			@close="showConfirmModal = false" 
+			@close="showConfirmModal = false"
 			@deleterepo="triggerDeleteConfirmed"
 		>
   		</confirmmodal>
 
-          <a class='provider-button blue' style='background-color: #EEEEEE' v-if='jwt' v-on:click='triggerAdd()' v-cloak>Add</a>
         </div>
 	
 	<style>
@@ -113,7 +138,7 @@
 
 	<script type="text/javascript">
 	authomatic.setup({
-		"backend:" : "https://bsceudatwp8.bsc.es/login/",
+		"backend:" : "login/",
 		"onLoginComplete" :  	function(result) {
 						window.Vue.jwt=result.jwt;
 						window.Vue.user=result.user;
@@ -121,7 +146,7 @@
 						var headerdata={};
                         			if (window.Vue.jwt)
                                  			headerdata = { Authorization : "Bearer " + window.Vue.jwt };
-						window.Vue.axiosInstance.post("https://bsceudatwp8.bsc.es/getRepoList", 
+						window.Vue.axiosInstance.post("getRepoList",
 							{},
 							{ headers: headerdata }
 							)
