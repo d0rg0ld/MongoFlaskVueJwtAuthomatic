@@ -21,7 +21,9 @@
         <div id="repo-list-example">
 	<div class="headDiv" align="right" v-if='!jwt' v-cloak>
 		<ul class="small-block-grid-6">
-			<li class="small"/>
+			<li class="small">
+				<a href="https://www.eudat.eu/"> <img src="/static/img/eudat_logo.png"/></a>
+			</li>
 			<li class="headTitle">Semantic lookup service</li>
 			<li/>
 			<li>
@@ -44,7 +46,7 @@
 	<div class="headDiv" align="right" v-if='jwt' v-cloak>
 		<ul class="small-block-grid-6">
 			<li class="small"/>
-			<li class="headTitle">Titre</li>
+			<li class="headTitle">Semantic lookup service</li>
 			<li/>
 			<li class="logInfo"><a>Logged in:</a></li>
 			<li class="logInfo"><a>{{ user }} / {{ provider }}</a></li>
@@ -67,8 +69,8 @@
 				<th><span>Name</span></th>
 				<th><span>Url</span></th>
 				<th><span>Description</span></th>
-				<th><span>Edit</span></th>
-				<th><span>Delete</span></th>
+				<th><span v-if='jwt'>Edit</span></th>
+				<th><span v-if='jwt'>Delete</span></th>
 			</tr>
 		   </thead>
 		    <tbody>

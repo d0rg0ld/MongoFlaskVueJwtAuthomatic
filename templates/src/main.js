@@ -58,7 +58,7 @@ var modal = Vue.component('modal',{
             </slot>\
           </div>\
 \
-          <div style="max-height: 400px; overflow:scroll; border: 1px black solid">
+          <div style="max-height: 400px; overflow-y:scroll; border: 1px black solid">
           <div class="modal-body">\
             <slot name="body">\
             <table v-if="this.first">
@@ -212,12 +212,12 @@ Vue.component('icon', Icon)
         var myList=Vue.component('repo-item', {
           props: ['title', 'url', 'desc', 'owner'],
           template: ` <tr>
-			<td style="padding 50px 0">{{ title }}</td> \
+			<td style="padding 50px 0"><a :href="url">{{ title }}</a></td> \
 			<td style="padding 50px 0">{{ url }}</td> \
 			<td style="padding 50px 0"> \
 			<label style="max-width: 512px; word-wrap: break-word; cursor: default">{{ desc }}</label></td> \
-                        <td><button  :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
-                        <td><button :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`
+                        <td><button :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
+                        <td><button :hidden="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`
                         /*<td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
                         <td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`*/
         });
