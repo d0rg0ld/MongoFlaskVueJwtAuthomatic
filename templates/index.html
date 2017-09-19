@@ -103,6 +103,7 @@
 			  v-bind:class_shortform="repo.class_shortform"
 			  v-bind:class_synonyms="repo.class_synonyms"
 			  v-bind:class_ontos="repo.class_onto"
+		      v-bind:admin="admin"
 		      v-bind:owner="repo.owner"
 		      v-on:remove="triggerDelete(index)"
 		      v-on:edit="triggerEdit(index)"
@@ -116,8 +117,7 @@
 			admin
 		</div>
 		<div v-if="!admin" class="footer">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut interdum urna sed metus pretium cursus. Curabitur et euismod libero, et bibendum tortor. Phasellus ac volutpat nibh. Duis posuere velit sed pulvinar convallis. Donec ut felis efficitur, interdum erat in, volutpat massa. Morbi interdum odio ut blandit hendrerit. <br>
-			Sed aliquam maximus justo, at gravida dui porttitor maximus. In a arcu sit amet dui maximus vestibulum quis vitae turpis.
+			This work has been supported by EUDAT, funded by the European Union under the Horizon 2020 programme - DG CONNECT e-Infrastructures (Contract No. 654065).
 		</div>
 	</div>
 
