@@ -71,7 +71,7 @@ var modal = Vue.component('modal',{
                     <td><input v-model="message.url"></input></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
+                    <td>Description *</td>
                     <td><input v-model="message.desc"></input></td>
                 </tr>
                 <tr>
@@ -79,11 +79,11 @@ var modal = Vue.component('modal',{
                     <td><input v-model="message.api_url"></input></td>
                 </tr>
                 <tr>
-                    <td>URL of the documentation of the API</td>
+                    <td>URL of the documentation of the API *</td>
                     <td><input v-model="message.api_doc_url"></input></td>
                 </tr>
                 <tr>
-                    <td>API type (REST, SPARQL)</td>
+                    <td>API type (REST, SPARQL...) *</td>
                     <td><input v-model="message.api_type"></input></td>
                 </tr>
                 <tr>
@@ -97,6 +97,14 @@ var modal = Vue.component('modal',{
                 <tr>
                     <td>Types of vocabularies (OWL, SKOS, OBO...)</td>
                     <td><input v-model="message.vocab_types"></input></td>
+                </tr>
+                <tr>
+                    <td>Types of vocabularies (OWL, SKOS, OBO...)</td>
+                    <td>
+                        <div> OWL <input type="checkbox"></input></div>
+                        <div> SKOS <input type="checkbox"></input></div>
+                        <div> OBO <input type="checkbox"></input></div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Domain coverage</td>
@@ -113,7 +121,7 @@ var modal = Vue.component('modal',{
           	</table>
             <slot v-if="!this.first" name="header">\
 		        How are the following attributes named in your model? <br>
-		        If the attribute doesn't exist, enter: None<br><br>
+		        If the attribute does not exist, enter: N/A<br><br>
 		        1) Ontology mapping
             </slot>\
             <table v-if="!this.first">
@@ -178,7 +186,7 @@ var modal = Vue.component('modal',{
             </slot>\
           </div>\
           <div style="padding-left: 20px; font-size: 70%">
-              Fields marked with a * are mandatory.
+              Fields marked with a * are required.
           </div>
           </div>
 
@@ -191,11 +199,11 @@ var modal = Vue.component('modal',{
 	          <button v-if="!this.first" class="modal-default-button" @click="$emit('first', message)"><</button>
 	          <div v-if="this.first" style="font-size: 120%; padding: 0px 3px 18px 2px">1/2</div>\
 	          <div v-if="!this.first" style="font-size: 120%; padding: 0px 3px 18px 2px">2/2</div>\
-	          <button v-if="this.first & message.title!='' & message.url!='' & message.api_url!='' " class="modal-default-button" @click="$emit('second', message)">></button>
+	          <button v-if="this.first & message.title!='' & message.url!='' & message.desc!='' & message.api_url!='' & message.api_doc_url!='' & message.api_type!=''" class="modal-default-button" @click="$emit('second', message)">></button>
 	          <button v-else class="modal-default-button-not">></button>
 
 	          <div v-if="this.add & !this.first" style="padding-left: 150px"><button class="modal-default-button" @click="$emit('addrepo', message)">Add</button></div>
-	          <div v-if="!this.add & message.title!='' & message.url!='' & message.api_url!=''" style="padding-left: 150px"><button class="modal-default-button" @click="$emit('changerepo', message)">Update</button></div>
+	          <div v-if="!this.add & message.title!='' & message.url!='' & message.desc!='' & message.api_url!='' & message.api_doc_url!='' & message.api_type!=''" style="padding-left: 150px"><button class="modal-default-button" @click="$emit('changerepo', message)">Update</button></div>
             </slot>\
           </div>\
         </div>\
@@ -217,7 +225,7 @@ Vue.component('icon', Icon)
 			<td style="padding 50px 0"> \
 			<label style="max-width: 512px; word-wrap: break-word; cursor: default">{{ desc }}</label></td> \
                         <td><button :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
-                        <td><button :hidden="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`
+                        <td><button :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`
                         /*<td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
                         <td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`*/
         });

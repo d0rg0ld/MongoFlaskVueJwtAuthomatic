@@ -19,38 +19,31 @@
 	<script type="text/javascript">(( popup_js | safe ))</script>
 
         <div id="repo-list-example">
-	<div class="headDiv" align="right" v-if='!jwt' v-cloak>
+	<div class="headDiv" align="right" v-cloak>
 		<ul class="small-block-grid-6">
 			<li class="small">
 				<a href="https://www.eudat.eu/"> <img src="/static/img/eudat_logo.png"/></a>
 			</li>
 			<li class="headTitle">Semantic lookup service</li>
 			<li/>
-			<li>
+			<li v-if='!jwt'>
 				<a class="authomatic provider-button google" href="login/google">
 					<span>Login with Google</span><img src="/static/img/icons/google.ico"/>
 				</a>
 			</li>
-			<li>
+			<li v-if='!jwt'>
 				<a class="authomatic provider-button github" href="login/github">
 					<span>Login with GitHub</span><img src="/static/img/icons/github.ico"/>
 				</a>
 			</li>
-			<li>
+			<li v-if='!jwt'>
 				<a class="authomatic provider-button linkedin" href="login/linkedin">
 					<span>Login with LinkedIn</span><img src="/static/img/icons/linkedin.ico"/>
 				</a>
 			</li>
-		</ul>
-	</div>
-	<div class="headDiv" align="right" v-if='jwt' v-cloak>
-		<ul class="small-block-grid-6">
-			<li class="small"/>
-			<li class="headTitle">Semantic lookup service</li>
-			<li/>
-			<li class="logInfo"><a>Logged in:</a></li>
-			<li class="logInfo"><a>{{ user }} / {{ provider }}</a></li>
-			<li>
+			<li v-if='jwt' class="logInfo"><a>Logged in:</a></li>
+			<li v-if='jwt' class="logInfo"><a>{{ user }} / {{ provider }}</a></li>
+			<li v-if='jwt'>
 				<a class="authomatic provider-button github" v-on:click='triggerLogout();'>
 					<span>Logout</span><img src=""/>
 				</a>
@@ -86,7 +79,7 @@
 		      v-bind:api_type="repo.api_type"
 		      v-bind:api_version="repo.api_version"
 		      v-bind:techno="repo.techno"
-		      v-bind:voc_types="repo.voc_types"
+		      v-bind:vocab_types="repo.vocab_types"
 		      v-bind:domain="repo.domain"
 		      v-bind:comment="repo.comment"
 		      v-bind:contact="repo.contact"
