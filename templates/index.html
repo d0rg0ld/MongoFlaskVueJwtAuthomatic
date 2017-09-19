@@ -59,9 +59,11 @@
 		  <table>
 		  <thead style="border-bottom: 2px #DDDDDD solid">
 			<tr>
-				<th><span>Name</span></th>
-				<th><span>Url</span></th>
+				<th><span>Repository</span></th>
 				<th><span>Description</span></th>
+				<th><span>Domain</span></th>
+				<th><span>API</span></th>
+				<th><span>API doc</span></th>
 				<th><span v-if='jwt'>Edit</span></th>
 				<th><span v-if='jwt'>Delete</span></th>
 			</tr>
@@ -82,7 +84,8 @@
 		      v-bind:vocab_types="repo.vocab_types"
 		      v-bind:domain="repo.domain"
 		      v-bind:comment="repo.comment"
-		      v-bind:contact="repo.contact"
+		      v-bind:contact_name="repo.contact_name"
+		      v-bind:contact_email="repo.contact_email"
 			  v-bind:onto_acr="repo.onto_acr"
 			  v-bind:onto_name="repo.onto_name"
 			  v-bind:onto_uri="repo.onto_uri"

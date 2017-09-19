@@ -91,7 +91,8 @@ def updateRepo():
 		vocab_types = repoInfo['vocab_types']
 		domain = repoInfo['domain']
 		comment = repoInfo['comment']
-		contact = repoInfo['contact']
+		contact_name = repoInfo['contact_name']
+		contact_email = repoInfo['contact_email']
 		onto_acr = repoInfo['onto_acr']
 		onto_name = repoInfo['onto_name']
 		onto_uri = repoInfo['onto_uri']
@@ -121,7 +122,8 @@ def updateRepo():
 				'vocab_types':vocab_types,
 				'domain':domain,
 				'comment':comment,
-				'contact':contact,
+				'contact_name':contact_name,
+				'contact_email':contact_email,
 				'onto_acr':onto_acr,
 				'onto_name':onto_name,
 				'onto_uri':onto_uri,
@@ -187,6 +189,10 @@ def getRepoList():
                 'title':repo['title'],
                 'url':repo['url'],
                 'desc':repo['desc'],
+                'domain':repo['domain'],
+                'api_url':repo['api_url'],
+                'api_doc_url':repo['api_doc_url'],
+                'api_type':repo['api_type'],
                 'id':str(repo['_id']),
                 'owner':owner
             }
@@ -216,7 +222,8 @@ def getRepo():
             'vocab_types':'',
             'domain':'',
             'comment':'',
-            'contact':'',
+            'contact_name':'',
+            'contact_email':'',
             'onto_acr':'',
             'onto_name':'',
             'onto_uri':'',
@@ -246,7 +253,8 @@ def getRepo():
             repoDetail['vocab_types']=repo['vocab_types']
             repoDetail['domain']=repo['domain']
             repoDetail['comment']=repo['comment']
-            repoDetail['contact']=repo['contact']
+            repoDetail['contact_name']=repo['contact_name']
+            repoDetail['contact_email']=repo['contact_email']
             repoDetail['onto_acr']=repo['onto_acr']
             repoDetail['onto_name']=repo['onto_name']
             repoDetail['onto_uri']=repo['onto_uri']
@@ -290,7 +298,8 @@ def addRepo():
         vocab_types = json_data['vocab_types']
         domain = json_data['domain']
         comment = json_data['comment']
-        contact	= json_data['contact']
+        contact_name	= json_data['contact_name']
+        contact_email	= json_data['contact_email']
         onto_acr = json_data['onto_acr']
         onto_name = json_data['onto_name']
         onto_uri = json_data['onto_uri']
@@ -320,7 +329,8 @@ def addRepo():
             'vocab_types':vocab_types,
             'domain':domain,
             'comment':comment,
-            'contact':contact,
+            'contact_name':contact_name,
+            'contact_email':contact_email,
             'onto_acr':onto_acr,
             'onto_name':onto_name,
             'onto_uri':onto_uri,

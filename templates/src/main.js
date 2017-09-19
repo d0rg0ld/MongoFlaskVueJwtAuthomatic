@@ -115,8 +115,12 @@ var modal = Vue.component('modal',{
                     <td><input v-model="message.comment"></input></td>
                 </tr>
                 <tr>
-                    <td>Contact</td>
-                    <td><input v-model="message.contact"></input></td>
+                    <td>Contact name</td>
+                    <td><input v-model="message.contact_name"></input></td>
+                </tr>
+                <tr>
+                    <td>Contact email</td>
+                    <td><input v-model="message.contact_email"></input></td>
                 </tr>
           	</table>
             <slot v-if="!this.first" name="header">\
@@ -218,12 +222,14 @@ var modal = Vue.component('modal',{
 Vue.component('icon', Icon)
 
         var myList=Vue.component('repo-item', {
-          props: ['title', 'url', 'desc', 'owner'],
+          props: ['title', 'url', 'desc', 'domain', 'api_type', 'api_url', 'api_doc_url', 'owner'],
           template: ` <tr>
 			<td style="padding 50px 0"><a :href="url">{{ title }}</a></td> \
-			<td style="padding 50px 0">{{ url }}</td> \
 			<td style="padding 50px 0"> \
 			<label style="max-width: 512px; word-wrap: break-word; cursor: default">{{ desc }}</label></td> \
+			<td style="padding 50px 0">{{ domain }}</td> \
+			<td style="padding 50px 0"><a :href="api_url">{{ api_type }} API</a></td> \
+			<td style="padding 50px 0"><a :href="api_doc_url">Link to the doc</a></td> \
                         <td><button :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
                         <td><button :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`
                         /*<td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
@@ -318,7 +324,8 @@ Vue.component('icon', Icon)
 			    vocab_types:"",
 			    domain:"",
 			    comment:"",
-			    contact:"",
+			    contact_name:"",
+			    contact_email:"",
                 onto_acr:"",
                 onto_name:"",
                 onto_uri:"",
