@@ -103,7 +103,6 @@
 			  v-bind:class_shortform="repo.class_shortform"
 			  v-bind:class_synonyms="repo.class_synonyms"
 			  v-bind:class_ontos="repo.class_onto"
-		      v-bind:admin="admin"
 		      v-bind:owner="repo.owner"
 		      v-on:remove="triggerDelete(index)"
 		      v-on:edit="triggerEdit(index)"
@@ -113,10 +112,7 @@
 		</div>
 	</div>
 	<div>
-		<div v-if="admin" class="footer">
-			admin
-		</div>
-		<div v-if="!admin" class="footer">
+		<div class="footer">
 			This work has been supported by EUDAT, funded by the European Union under the Horizon 2020 programme - DG CONNECT e-Infrastructures (Contract No. 654065).
 		</div>
 	</div>
@@ -159,12 +155,6 @@
 						window.Vue.jwt=result.jwt;
 						window.Vue.user=result.user;
 						window.Vue.provider=result.provider;
-						if (result.user == "AymRod" && result.provider == "github") {
-							window.Vue.admin=true;
-						}
-						else {
-							window.Vue.admin=false;
-						}
 						var headerdata={};
                         			if (window.Vue.jwt)
                                  			headerdata = { Authorization : "Bearer " + window.Vue.jwt };
