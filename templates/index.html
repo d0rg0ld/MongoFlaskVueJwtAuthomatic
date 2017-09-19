@@ -21,11 +21,10 @@
         <div id="repo-list-example">
 	<div class="headDiv" align="right" v-cloak>
 		<ul class="small-block-grid-6">
-			<li class="small">
-				<a href="https://www.eudat.eu/"> <img src="/static/img/eudat_logo.png"/></a>
-			</li>
+			<li class="small"><a href="https://www.eudat.eu/"> <img src="/static/img/eudat_logo.png"/></a></li>
 			<li class="headTitle">Semantic lookup service</li>
-			<li/>
+			<li class="about" v-on:click='triggerAbout()'>About</li>
+
 			<li v-if='!jwt'>
 				<a class="authomatic provider-button google" href="login/google">
 					<span>Login with Google</span><img src="/static/img/icons/google.ico"/>
@@ -41,8 +40,13 @@
 					<span>Login with LinkedIn</span><img src="/static/img/icons/linkedin.ico"/>
 				</a>
 			</li>
-			<li v-if='jwt' class="logInfo"><a>Logged in:</a></li>
-			<li v-if='jwt' class="logInfo"><a>{{ user }} / {{ provider }}</a></li>
+
+			<li v-if='jwt' class="logInfo">
+				<a>Logged in:</a>
+			</li>
+			<li v-if='jwt' class="logInfo">
+				<a>{{ user }} / {{ provider }}</a>
+			</li>
 			<li v-if='jwt'>
 				<a class="authomatic provider-button github" v-on:click='triggerLogout();'>
 					<span>Logout</span><img src=""/>
@@ -107,6 +111,12 @@
 		  </table>
 		</div>
 	</div>
+	<div>
+		<div class="footer">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut interdum urna sed metus pretium cursus. Curabitur et euismod libero, et bibendum tortor. Phasellus ac volutpat nibh. Duis posuere velit sed pulvinar convallis. Donec ut felis efficitur, interdum erat in, volutpat massa. Morbi interdum odio ut blandit hendrerit. <br>
+			Sed aliquam maximus justo, at gravida dui porttitor maximus. In a arcu sit amet dui maximus vestibulum quis vitae turpis.
+		</div>
+	</div>
 
   		<modal :message="curRep" :first="firstForm" :add="showAdd" v-if="showModal"
 			@close="showModal = false, firstForm = true"
@@ -122,6 +132,11 @@
 			@deleterepo="triggerDeleteConfirmed"
 		>
   		</confirmmodal>
+
+  		<aboutmodal v-if="showAboutModal"
+			@close="showAboutModal = false"
+		>
+  		</aboutmodal>
 
         </div>
 	

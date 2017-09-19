@@ -39,6 +39,40 @@ var confirmmodal = Vue.component('confirmmodal',{
 });
 
 
+var aboutmodal = Vue.component('aboutmodal',{
+	props: [],
+	template: `\
+  <transition name="modal">\
+    <div class="modal-mask">\
+      <div class="modal-wrapper">\
+        <div class="modal-container">\
+\
+          <div class="modal-header">\
+            <slot name="header">\
+              About this service:
+            </slot>\
+          </div>\
+\
+          <div class="modal-body">\
+            <slot name="body">\
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut interdum urna sed metus pretium cursus. Curabitur et euismod libero, et bibendum tortor. Phasellus ac volutpat nibh. Duis posuere velit sed pulvinar convallis. Donec ut felis efficitur, interdum erat in, volutpat massa. Morbi interdum odio ut blandit hendrerit. <br>
+			  Sed aliquam maximus justo, at gravida dui porttitor maximus. In a arcu sit amet dui maximus vestibulum quis vitae turpis.\
+            </slot>\
+          </div>\
+\
+          <div class="modal-footer">\
+            <slot name="footer">\
+              <button class="modal-default-button" @click="$emit('close')">Ok</button>\
+            </slot>\
+          </div>\
+        </div>\
+      </div>\
+    </div>\
+  </transition>\
+`
+});
+
+
 var modal = Vue.component('modal',{
 	props: ['message', 'first', 'add'],
 	template: `\
@@ -61,6 +95,9 @@ var modal = Vue.component('modal',{
           <div style="max-height: 400px; overflow-y:scroll; border: 1px black solid">
           <div class="modal-body">\
             <slot name="body">\
+            <slot v-if="this.first" name="header">\
+		        In case of multiple answers, enter the answers separated by commas <br><br>
+            </slot>\
             <table v-if="this.first">
                 <tr>
                     <td>Name *</td>
@@ -130,7 +167,7 @@ var modal = Vue.component('modal',{
             </slot>\
             <table v-if="!this.first">
                 <tr>
-                    <td>Ontology acronym</td>
+                    <td class="firstTD">Ontology acronym</td>
                     <td><input v-model="message.onto_acr"></input></td>
                 </tr>
                 <tr>
@@ -163,7 +200,7 @@ var modal = Vue.component('modal',{
             </slot>\
             <table v-if="!this.first">
                 <tr>
-                    <td>Class label</td>
+                    <td class="firstTD">Class label</td>
                     <td><input v-model="message.class_label"></input></td>
                 </tr>
                 <tr>
@@ -247,6 +284,7 @@ Vue.component('icon', Icon)
 			curRep: null,
 			showModal: false,
 			showConfirmModal: false,
+			showAboutModal: false,
 			showAuth: false,
 			showAdd: true,
 			firstForm: true,
@@ -271,7 +309,7 @@ Vue.component('icon', Icon)
 			.catch(function(error) {console.log(error)});
 			console.log(this.repos)
 		  },
-                  components: { myList : myList, modal : modal, confirmmodal : confirmmodal},
+                  components: { myList : myList, modal : modal, confirmmodal : confirmmodal, aboutmodal : aboutmodal},
                   methods: {
 		    createJwtHeaderData: function() {
 			var headerdata={};
@@ -310,6 +348,9 @@ Vue.component('icon', Icon)
 				}
 			)
 			.catch(function(error) {console.log(error)});
+		    },
+		    triggerAbout: function () {
+			this.showAboutModal=true;
 		    },
 		    triggerAdd: function () {
 			this.curRep={
