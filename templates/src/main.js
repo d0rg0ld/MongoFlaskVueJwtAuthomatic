@@ -136,14 +136,6 @@ var modal = Vue.component('modal',{
                     <td><input v-model="message.vocab_types"></input></td>
                 </tr>
                 <tr>
-                    <td>Types of vocabularies (OWL, SKOS, OBO...)</td>
-                    <td>
-                        <div> OWL <input type="checkbox"></input></div>
-                        <div> SKOS <input type="checkbox"></input></div>
-                        <div> OBO <input type="checkbox"></input></div>
-                    </td>
-                </tr>
-                <tr>
                     <td>Domain coverage</td>
                     <td><input v-model="message.domain"></input></td>
                 </tr>
@@ -280,6 +272,7 @@ Vue.component('icon', Icon)
 			provider: null,
 			user: null,
 			jwt: null,
+			admin: false,
 			axiosInstance: null,
 			curRep: null,
 			showModal: false,

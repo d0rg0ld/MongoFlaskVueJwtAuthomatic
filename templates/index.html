@@ -112,7 +112,10 @@
 		</div>
 	</div>
 	<div>
-		<div class="footer">
+		<div v-if="admin" class="footer">
+			admin
+		</div>
+		<div v-if="!admin" class="footer">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut interdum urna sed metus pretium cursus. Curabitur et euismod libero, et bibendum tortor. Phasellus ac volutpat nibh. Duis posuere velit sed pulvinar convallis. Donec ut felis efficitur, interdum erat in, volutpat massa. Morbi interdum odio ut blandit hendrerit. <br>
 			Sed aliquam maximus justo, at gravida dui porttitor maximus. In a arcu sit amet dui maximus vestibulum quis vitae turpis.
 		</div>
@@ -155,7 +158,13 @@
 		"onLoginComplete" :  	function(result) {
 						window.Vue.jwt=result.jwt;
 						window.Vue.user=result.user;
-						window.Vue.provider=result.provider;  
+						window.Vue.provider=result.provider;
+						if (result.user == "AymRod" && result.provider == "github") {
+							window.Vue.admin=true;
+						}
+						else {
+							window.Vue.admin=false;
+						}
 						var headerdata={};
                         			if (window.Vue.jwt)
                                  			headerdata = { Authorization : "Bearer " + window.Vue.jwt };
