@@ -43,7 +43,7 @@ def validateJwtUser(user, site):
         jwt_data=json.loads(get_jwt()['sub'])
         ok = ( user==jwt_data["userid"] and site==jwt_data["siteid"] )
         #log.info(repr(jwt_data))
-        ok = ok or (user =='30405800' and site=='3')
+        ok = ok or (jwt_data["userid"] =='30405800' and jwt_data["siteid"]=='3')
         return ok
     except:
         return False
