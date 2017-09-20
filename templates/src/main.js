@@ -259,10 +259,10 @@ Vue.component('icon', Icon)
 			<td style="padding 50px 0">{{ domain }}</td> \
 			<td style="padding 50px 0"><a :href="api_url">{{ api_type }} API</a></td> \
 			<td style="padding 50px 0"><a :href="api_doc_url">Link to the doc</a></td> \
-            <td v-if="jwt"><button :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
-            <td v-if="jwt"><button :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td>
-            <td v-if="!jwt"><button style="visibility: hidden;" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
-            <td v-if="!jwt"><button style="visibility: hidden;" :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr> `
+            <td v-if='jwt'><button :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
+            <td v-if='jwt'><button :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td>
+            <td v-if='!jwt'><button style="visibility: hidden;" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
+            <td v-if='!jwt'><button style="visibility: hidden;" :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr> `
             /*<td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'edit\')"><icon name="edit" style="color: #000000"></icon></button></td> \
             <td><button style="invisiblebutton" :disabled="owner==0" v-on:click="$emit(\'remove\')"><icon name="ban" style="color: #FF0000"></icon></button></td> </tr>`*/
         });
