@@ -72,6 +72,7 @@
 }
 
 .about{
+    visibility: hidden;
     border: 2px #DDDDDD solid;
     background-color: white;
     border-radius: 10px;
